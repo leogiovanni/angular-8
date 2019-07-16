@@ -1,0 +1,45 @@
+<div class="row box-message" *ngIf="error">
+    <div class="col-12">
+        <alert type="danger row">{{message}}</alert>
+    </div>
+  </div>
+  
+  <div class="row box-message" *ngIf="warning">
+    <div class="col-12">
+        <alert type="warning row">{{message}}</alert>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <table>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>City</th>
+          <th>Ride in Group</th>
+          <th>Day of week</th>
+          <th>Posts</th>
+          <th>Albums</th>
+          <th>Photos</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let user of users">
+            <td>{{user.username}}</td>
+            <td>{{user.name}}</td>
+            <td><label>{{user.email}}</label></td>
+            <td><label>{{user.city}}</label></td>
+            <td>{{user.rideInGroup}}</td>
+            <td>{{user.dayOfWeek}}</td>
+            <td><label>{{user.posts}}</label></td>
+            <td><label>{{user.albums}}</label></td>
+            <td>{{user.photos}}</td>
+            <td><fa name="trash" (click)="deleteUser(user.id)" class="trash"></fa></td>
+        </tr>
+        <tr *ngIf="!users" class="no-hover"> 
+          <td colspan="10">No data found.</td>
+        </tr>
+      </table>
+    </div>
+  </div>

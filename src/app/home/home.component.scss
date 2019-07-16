@@ -1,0 +1,70 @@
+.full-width {
+    width: 100%;
+
+    &:nth-last-child {
+        margin-bottom: 10px;
+    }
+}
+
+table {
+    width: 90%;
+    margin: 0 auto;
+
+    tr{
+        &:hover{
+            background: #ecebeb;
+        }
+
+        &:first-child:hover {
+            background: none;
+        }
+
+        &.no-hover:hover{
+            background: none !important;
+        }
+
+        th {
+            padding: 0 5px;
+            height: 70px;
+            padding: 0 auto;
+            border-bottom: 1px solid #8f8f8f;
+        }
+    
+        td {
+            padding: 0 5px;
+            height: 50px;
+            padding: 0 auto;
+            border-bottom: 1px solid #8f8f8f; 
+
+            label{
+                color: #7ec9aa;
+                padding-top: 10px;
+            }
+            
+        }
+    } 
+}
+
+.trash{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.btn-submit{
+    margin-bottom: 20px;
+}
+
+.cancel{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.confirm{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.confirm-message{
+    text-align: center;
+}
