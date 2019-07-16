@@ -1,5 +1,5 @@
 header {
-    background: #7ec9aa;
+    background: #ffffff;
 }
 
 nav {
@@ -15,6 +15,7 @@ nav {
             float: left;
 
             a {
+                color: #000000;
                 padding: 1.5em;
                 text-transform: uppercase;
                 font-size: .8em;
@@ -22,3 +23,56 @@ nav {
         }
     }
 }
+
+
+.breadcrumb {
+    height: 50px;
+    background-color: #eeecec;
+    margin-bottom: 0;   
+    border-radius: 0;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    
+        li {
+            float: left;
+            padding-left: 20px;
+
+            &:first-child{
+                padding-left: 0px;
+            }
+    
+            a {
+                display: block;
+                color: #3CC4AC;
+                text-align: center;
+                text-decoration: none;
+            } 
+            a:hover {
+                text-decoration: underline;
+            }
+        } 
+    }
+}
+
+.banner{
+    height: 150px;
+    background: #C0ECE4;
+
+    p{
+        padding-top: 40px;
+        margin-bottom: 0px;
+    }
+}
+
+.position-left{
+    float: left !important;
+    width: auto;
+    margin-right: 30px;
+    height: 100%;
+    position: relative;
+}
+  

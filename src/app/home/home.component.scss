@@ -9,16 +9,13 @@
 table {
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 30px;
 
     tr{
-        border-bottom: 1px solid #8f8f8f; 
+        border-bottom: 1px solid #8f8f8f;
 
         &:hover{
             background: #ecebeb;
-        }
-
-        &:first-child:hover {
-            background: none;
         }
 
         &.no-hover:hover{
@@ -45,7 +42,7 @@ table {
             padding: 0 auto;
 
             label{
-                color: #7ec9aa;
+                color: #3CC4AC;
                 padding-top: 10px;
             }
             

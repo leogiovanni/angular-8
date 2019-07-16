@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Pipe, PipeTransform} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../data.service';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { validateHorizontalPosition, CloseScrollStrategy } from '@angular/cdk/overlay';
@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { $ } from 'protractor';
-import { MyFilterPipe } from './home.filter.component';
 
 @Component({
   selector: 'app-home',
@@ -61,13 +60,9 @@ export class HomeComponent implements OnInit {
 
         this.isLoadingResults = false;
 
-        if(this.users.length < 1){
-          this.users = null;
-        }  
-        else {
+        if(this.users.length > 0){
           this.searchPosts();
           this.searchAlbuns();
-          this.searchPhotos();
         }
       },
       err =>{
@@ -92,21 +87,32 @@ export class HomeComponent implements OnInit {
     );     
   }
 
-  searchPhotos(){
-    this.data.get(environment.photos).subscribe(
-      res=>{
-        
-      }
-    );
-  }
-
   searchAlbuns(){
     this.data.get(environment.albums).subscribe(
       res=>{
-        for(let album of res){
-          let index = this.users.findIndex(User => User.id === album.userId);
-          this.users[index].albums = this.users[index].albums + 1;
-        }  
+
+        let albums = res;
+        
+        this.data.get(environment.photos).subscribe(
+          res=>{
+            for(let album of albums){
+              
+              // fill albums quantity
+              let indexAlbum = this.users.findIndex(User => User.id === album.userId);
+              this.users[indexAlbum].albums = this.users[indexAlbum].albums + 1;
+              
+              //fill photos based on albums
+              for(let photo of res){
+                let albumId = photo.albumId;
+
+                if(album.id == albumId && album.userId == this.users[indexAlbum].id){
+                  let indexPhoto = this.users.findIndex(User => User.id === album.userId);
+                  this.users[indexPhoto].photos = this.users[indexPhoto].photos + 1;
+                }
+              }
+            }
+          }
+        );
       }
     );
   }
@@ -177,7 +183,7 @@ export class HomeComponent implements OnInit {
 
 export class User {
   public id: number;
-  private username: string;
+  public username: string;
   public name: string;
   private email: string;
   private city: string;

@@ -1,64 +1,67 @@
-<div class="row box-message" *ngIf="error">
-  <div class="col-12">
-      <alert type="danger row">{{message}}</alert>
-  </div>
-</div>
-
-<div class="row box-message" *ngIf="warning">
-  <div class="col-12">
-      <alert type="warning row">{{message}}</alert>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-8"></div>
-    <div class="col-4" >
-        <form [formGroup]="form">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Filter" formControlName="search" [value]="search" autocomplete="off" (change)="onInputChange(form.value)">
-            <mat-error>
-              <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 3 characters</span>
-            </mat-error>
-          </mat-form-field>
-        </form>
-    </div>
-  </div>
-  <div class="row">
+<div class="content">
+  <div class="row box-message" *ngIf="error">
     <div class="col-12">
-      <table>
-        <tr>
-          <th>Username</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>City</th>
-          <th>Ride in Group</th>
-          <th>Day of week</th>
-          <th>Posts</th>
-          <th>Albums</th>
-          <th>Photos</th>
-          <th></th>
-        </tr>
-        <tr *ngIf="isLoadingResults" class="tr-loading">
-          <td colspan="10" align="center"><mat-spinner diameter="30" strokeWidth="2" class="loading-btn"></mat-spinner></td>
-        </tr>
-        <tbody *ngIf="!isLoadingResults">
-          <tr *ngFor="let user of users | myfilter:search" (mouseover)="showRemoveBtn(true, user.id)" (mouseleave)="showRemoveBtn(false, user.id)">
-              <td>{{user.username}}</td>
-              <td>{{user.name}}</td>
-              <td><label>{{user.email}}</label></td>
-              <td><label>{{user.city}}</label></td>
-              <td>{{user.rideInGroup}}</td>
-              <td>{{user.dayOfWeek}}</td>
-              <td><label>{{user.posts}}</label></td>
-              <td><label>{{user.albums}}</label></td>
-              <td>{{user.photos}}</td>
-              <td width="50px"><fa name="trash" (click)="deleteUser(user.id)" class="trash" id="{{user.id}}"></fa></td>
-          </tr>
-          <tr *ngIf="!users" class="no-hover"> 
-            <td colspan="10">No data found.</td>
-          </tr>
-        </tbody>
-      </table>
+        <alert type="danger row">{{message}}</alert>
     </div>
   </div>
+
+  <div class="row box-message" *ngIf="warning">
+    <div class="col-12">
+        <alert type="warning row">{{message}}</alert>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-8"></div>
+      <div class="col-4" >
+          <form [formGroup]="form">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Filter by Name or Username" formControlName="search" [value]="search" autocomplete="off" (change)="onInputChange(form.value)">
+              <mat-error>
+                <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 3 characters</span>
+              </mat-error>
+            </mat-form-field>
+          </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table>
+          <tr class="no-hover header">
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Ride in Group</th>
+            <th>Day of week</th>
+            <th>Posts</th>
+            <th>Albums</th>
+            <th>Photos</th>
+            <th></th>
+          </tr>
+          <tr *ngIf="isLoadingResults" class="tr-loading">
+            <td colspan="10" align="center"><mat-spinner diameter="30" strokeWidth="2" class="loading-btn"></mat-spinner></td>
+          </tr>
+          <tbody *ngIf="!isLoadingResults">
+            <tr *ngFor="let user of users | myfilter:search" (mouseover)="showRemoveBtn(true, user.id)" (mouseleave)="showRemoveBtn(false, user.id)">
+                <td>{{user.username}}</td>
+                <td>{{user.name}}</td>
+                <td><label>{{user.email}}</label></td>
+                <td><label>{{user.city}}</label></td>
+                <td>{{user.rideInGroup}}</td>
+                <td>{{user.dayOfWeek}}</td>
+                <td><label>{{user.posts}}</label></td>
+                <td><label>{{user.albums}}</label></td>
+                <td>{{user.photos}}</td>
+                <td width="50px"><fa name="trash" (click)="deleteUser(user.id)" class="trash" id="{{user.id}}"></fa></td>
+            </tr>
+            <tr *ngIf="users.length < 1" class="no-hover"> 
+              <td colspan="10">No data found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
