@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject, Pipe, PipeTransform} from '@angular/core';
 import { DataService } from '../data.service';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { validateHorizontalPosition, CloseScrollStrategy } from '@angular/cdk/overlay';
@@ -7,6 +7,8 @@ import { switchMap, first } from "rxjs/operators";
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { $ } from 'protractor';
+import { MyFilterPipe } from './home.filter.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,8 @@ export class HomeComponent implements OnInit {
   error: boolean = false;
   isLoadingResults: boolean = false;
   message: string = null;
+  form: FormGroup;
+  search: string = null;
 
   constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog) {  }
 
@@ -31,6 +35,11 @@ export class HomeComponent implements OnInit {
 
   onLoadPage(){
     this.isLoadingResults = true;
+
+    this.form = this.formBuilder.group({
+      'search' : [null, [ Validators.minLength(3)] ]
+    });
+
     this.data.get(environment.users).subscribe(
       res=>{
 
@@ -43,16 +52,23 @@ export class HomeComponent implements OnInit {
               user.address.city,
               this.rideInGroup(),
               this.dayOfweek(),
-              this.searchPosts(user.id),
-              this.searchAlbuns(user.id),
-              this.searchPhotos(user.id)
+              0,
+              0,
+              0
             )
           );
         };
 
+        this.isLoadingResults = false;
+
         if(this.users.length < 1){
           this.users = null;
         }  
+        else {
+          this.searchPosts();
+          this.searchAlbuns();
+          this.searchPhotos();
+        }
       },
       err =>{
         let message = "Request failed";
@@ -61,35 +77,38 @@ export class HomeComponent implements OnInit {
     );    
   }
 
-  searchPosts(id: number){
-    var qtd = 0;
-    this.data.get(environment.posts+"?userId="+id).subscribe(
-      res=>{
-        qtd =  res.length;
-        return qtd;
-      }
-    );
-    return qtd;     
+  onInputChange(form:NgForm) {
+    this.search = form['search'];
   }
 
-  searchPhotos(id: number){
-    var qtd = 0;
-    this.data.get(environment.photos+"?userId="+id).subscribe(
+  searchPosts(){
+    this.data.get(environment.posts).subscribe(
       res=>{
-        qtd =  res.length;
+        for(let post of res){
+          let index = this.users.findIndex(User => User.id === post.userId);
+          this.users[index].posts = this.users[index].posts + 1;
+        }    
       }
-    );
-    return qtd;    
+    );     
   }
 
-  searchAlbuns(id: number){
-    var qtd = 0;
-    this.data.get(environment.albums+"?userId="+id).subscribe(
+  searchPhotos(){
+    this.data.get(environment.photos).subscribe(
       res=>{
-        qtd =  res.length;
+        
       }
     );
-    return qtd;    
+  }
+
+  searchAlbuns(){
+    this.data.get(environment.albums).subscribe(
+      res=>{
+        for(let album of res){
+          let index = this.users.findIndex(User => User.id === album.userId);
+          this.users[index].albums = this.users[index].albums + 1;
+        }  
+      }
+    );
   }
   
   rideInGroup(){
@@ -103,7 +122,6 @@ export class HomeComponent implements OnInit {
   }
 
   deleteUser(id: number){
-    
     const dialogRef = this.confirm.open(HomeConfirmComponent, {
       data : {'text': 'Are you sure ?'}
     });
@@ -114,6 +132,15 @@ export class HomeComponent implements OnInit {
         this.users.splice(index, 1);
       }
     });
+  }
+
+  showRemoveBtn(show: boolean, id: string){
+    if(show){
+      document.getElementById(id).style.display = "block";
+    }
+    else {
+      document.getElementById(id).style.display = "none";
+    }
   }
 
   reset(){
@@ -148,26 +175,17 @@ export class HomeComponent implements OnInit {
   }
 }
 
-@Component({
-  selector: 'app-home-confirm',
-  templateUrl: './home.confirm.component.html',
-  styleUrls: ['./home.component.scss'],
-})
-export class HomeConfirmComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
-};
-
 export class User {
   public id: number;
   private username: string;
-  private name: string;
+  public name: string;
   private email: string;
   private city: string;
   private rideInGroup: string;
   private dayOfWeek: string;
-  private posts: number;
-  private albums: number;
-  private photos: number;
+  public posts: number;
+  public albums: number;
+  public photos: number;
   constructor(id:number,username:string,name:string,email: string,city:string,rideInGroup:string,dayOfWeek:string,posts:number,albums:number,photos:number) { 
     this.id = id; 
     this.username = username;
@@ -181,3 +199,12 @@ export class User {
     this.photos = photos; 
   }
 }
+
+@Component({
+  selector: 'app-home-confirm',
+  templateUrl: './home.confirm.component.html',
+  styleUrls: ['./home.component.scss'],
+})
+export class HomeConfirmComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+};

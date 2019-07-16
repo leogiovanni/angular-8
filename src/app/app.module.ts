@@ -27,7 +27,8 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { HomeComponent, HomeConfirmComponent } from './home/home.component';
+import { HomeComponent, HomeConfirmComponent} from './home/home.component';
+import { MyFilterPipe } from './home/home.filter.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { HomeComponent, HomeConfirmComponent } from './home/home.component';
     NavComponent,
     HomeComponent,
     HomeConfirmComponent,
+    MyFilterPipe,
   ],
   imports: [
     BrowserModule,
