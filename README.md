@@ -44,3 +44,7 @@ To run is necessary nodejs.
 
 1. Run: ng install 
 2. Run: ng serve
+
+## Online APP deployed in HEROKU
+
+https://leoangular.herokuapp.com/
