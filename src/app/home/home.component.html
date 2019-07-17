@@ -15,7 +15,7 @@
       <div class="col-3" >
           <form [formGroup]="form">
             <mat-form-field class="full-width" appearance="outline"> 
-              <input matInput placeholder="Filter by name or username" formControlName="search" [value]="search" autocomplete="off" (keypress)="onInputChange(form.value)" (keyup)="onInputChange(form.value)" (keydown)="onInputChange(form.value)">
+              <input matInput placeholder="Filter by name or username" formControlName="search" [value]="search" autocomplete="off" (keyup)="onInputChange(form.value)">
               <mat-error>
                 <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 2 characters</span>
               </mat-error>
