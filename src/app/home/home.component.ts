@@ -34,6 +34,13 @@ export class HomeComponent implements OnInit {
   city: string = null;
   frequency: string = null;
   day: Array<String> = null;
+  daySun: boolean = null;
+  dayMon: boolean = null;
+  dayTue: boolean = null;
+  dayWed: boolean = null;
+  dayThu: boolean = null;
+  dayFri: boolean = null;
+  daySat: boolean = null;
 
   constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog) {  }
 
@@ -53,8 +60,16 @@ export class HomeComponent implements OnInit {
       'name' : [null, [ Validators.required, Validators.minLength(2)] ],
       'email' : [null, [ Validators.required, Validators.email] ],
       'frequency' : [null, [ Validators.required ] ],
-      'day' : [null, [ Validators.required ] ],
-      'city': [null]
+      'day' : this.formBuilder.group({
+        "daySun" : [null],
+        "dayMon" : [null],
+        "dayTue" : [null],
+        "dayWed" : [null],
+        "dayThu" : [null],
+        "dayFri" : [null],
+        "daySat" : [null]
+      }),
+      'city': [null],            
     });
 
     this.data.get(environment.users).subscribe(
@@ -163,8 +178,16 @@ export class HomeComponent implements OnInit {
   addNewUser(formNew:NgForm, formDirective: FormGroupDirective) {
 
     this.id = this.users.reduce((max, p) => p.id > max ? p.id : max, this.users[0].id) + 1;
-   
-    // console.log(formNew['day']);
+
+    let days = "";
+
+    if(formNew["day"]["daySun"]== true) days = days + "Sun";
+    if(formNew["day"]["dayMon"]== true) days = days + this.addComa(days) + "Mon";
+    if(formNew["day"]["dayTue"]== true) days = days + this.addComa(days) + "Tue";    
+    if(formNew["day"]["dayWed"]== true) days = days + this.addComa(days) + "Wed";
+    if(formNew["day"]["dayThu"]== true) days = days + this.addComa(days) + "Thu";
+    if(formNew["day"]["dayFri"]== true) days = days + this.addComa(days) + "Fri";
+    if(formNew["day"]["daySat"]== true) days = days + this.addComa(days) + "Sat";
 
     this.users.push(new User(
         this.id, 
@@ -173,7 +196,7 @@ export class HomeComponent implements OnInit {
         formNew['email'],
         formNew['city'],
         formNew['frequency'],
-        "",
+        days,
         0,
         0,
         0
@@ -184,6 +207,11 @@ export class HomeComponent implements OnInit {
     formDirective.resetForm();
     let message = "User added successfully";
     this.successMethod(message);
+  }
+
+  addComa(day: string){
+    if(day != "") return ", ";
+    return "";
   }
 
   showRemoveBtn(show: boolean, id: string){

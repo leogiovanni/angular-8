@@ -157,14 +157,14 @@
                   <span *ngIf="formNew.controls['frequency'].hasError('required') && formNew.get('frequency').touched">Please select one option</span>
                 </mat-error>
               </mat-radio-group>
-              <section class="section-checkbox"> 
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Sun">Sun</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Mon">Mon</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Tue">Tue</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Wed">Wed</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Thu">Thu</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Fri">Fri</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Sat">Sat</mat-checkbox>
+              <section class="section-checkbox" formGroupName="day"> 
+                <mat-checkbox class="checkbox" formControlName="daySun" [value]="daySun" value="Sun">Sun</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayMon" [value]="dayMon" value="Mon">Mon</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayTue" [value]="dayTue" value="Tue">Tue</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayWed" [value]="dayWed" value="Wed">Wed</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayThu" [value]="dayThu" value="Thu">Thu</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayFri" [value]="dayFri" value="Fri">Fri</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="daySat" [value]="daySat" value="Sat">Sat</mat-checkbox>
                 <mat-error>
                   <span *ngIf="formNew.controls['day'].hasError('required') && formNew.get('day').touched">Please select one option</span>
                 </mat-error>
