@@ -26,6 +26,13 @@
 
     <div class="row data">
       <div class="col-12">
+        <div class="box-message" *ngIf="successRemove">
+          <div class="col-12">
+            <alert type="success row">{{message}}</alert>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
         <table>
           <tr class="no-hover header">
             <th>Username</th>
@@ -170,5 +177,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>

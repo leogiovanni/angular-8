@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 
   users: Array<User> = [];
   success: boolean = false;
+  successRemove: boolean = false;
   error: boolean = false;
   isLoadingResults: boolean = false;
   message: string = null;
@@ -122,7 +123,7 @@ export class HomeComponent implements OnInit {
               for(let photo of res){
                 let albumId = photo.albumId;
 
-                if(album.id == albumId && album.userId == this.users[indexAlbum].id){
+                if(album.id == albumId){
                   let indexPhoto = this.users.findIndex(User => User.id === album.userId);
                   this.users[indexPhoto].photos = this.users[indexPhoto].photos + 1;
                 }
@@ -153,6 +154,8 @@ export class HomeComponent implements OnInit {
       if(result === true){
         let index = this.users.findIndex(User => User.id === id);
         this.users.splice(index, 1);
+        let message = "User removed successfully";
+        this.successRemoveMethod(message);
       }
     });
   }
@@ -196,6 +199,15 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => {
       this.success = false;      
+    }, 4000);
+  }
+
+  successRemoveMethod(message){
+    this.successRemove = true;
+    this.message = message;
+
+    setTimeout(() => {
+      this.successRemove = false;      
     }, 4000);
   }
 
