@@ -160,7 +160,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  addNewUser(formNew:NgForm) {
+  addNewUser(formNew:NgForm, formDirective: FormGroupDirective) {
+
     this.id = this.users.reduce((max, p) => p.id > max ? p.id : max, this.users[0].id) + 1;
    
     // console.log(formNew['day']);
@@ -179,6 +180,8 @@ export class HomeComponent implements OnInit {
       )
     );
 
+    this.formNew.reset();
+    formDirective.resetForm();
     let message = "User added successfully";
     this.successMethod(message);
   }
