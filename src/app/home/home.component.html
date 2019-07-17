@@ -13,11 +13,14 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-8"></div>
-      <div class="col-4" >
+      <div class="col-2">
+        <h1>Users</h1> 
+      </div>
+      <div class="col-7"></div>
+      <div class="col-3" >
           <form [formGroup]="form">
             <mat-form-field class="full-width">
-              <input matInput placeholder="Filter by Name or Username" formControlName="search" [value]="search" autocomplete="off" (change)="onInputChange(form.value)">
+              <input matInput placeholder="Filter by name or username" formControlName="search" [value]="search" autocomplete="off" (change)="onInputChange(form.value)">
               <mat-error>
                 <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 3 characters</span>
               </mat-error>
@@ -25,7 +28,8 @@
           </form>
       </div>
     </div>
-    <div class="row">
+
+    <div class="row data">
       <div class="col-12">
         <table>
           <tr class="no-hover header">
@@ -63,5 +67,47 @@
         </table>
       </div>
     </div>
+
+    <div class="row registration">
+        <div class="col-12">
+          <h1 class="title">Registration</h1> 
+        </div>
+        <div class="col-12">
+          <div class="col-4 position-left row">
+            <h3 class="color-font-default">Need help ?</h3>
+            <div class="row">
+                <div class="col-3 position-left">
+                    <fa name="life-ring" class="color-font-default"></fa>
+                </div>
+                <div class="col-9 position-left">
+                  <p>Readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+                </div>
+              </div>
+          </div>
+          <div class="col-4 position-left">
+            <h3 class="color-font-default">Why register ?</h3>
+            <div class="row">
+              <div class="col-3 position-left">
+                <fa name="heartbeat" class="color-font-default"></fa>
+              </div>
+              <div class="col-9 position-left">
+                <p>When looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 position-left">
+            <h3 class="color-font-default">What people are saying ...</h3>
+            <div class="row">
+                <div class="col-3 position-left">
+                  <fa name="users" class="color-font-default"></fa>
+                </div>
+                <div class="col-9 position-left">
+                  <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
   </div>
+
 </div>

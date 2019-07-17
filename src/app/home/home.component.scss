@@ -9,7 +9,6 @@
 table {
     width: 100%;
     margin: 0 auto;
-    margin-bottom: 30px;
 
     tr{
         border-bottom: 1px solid #8f8f8f;
@@ -74,4 +73,22 @@ table {
 
 .confirm-message{
     text-align: center;
+}
+
+.data {
+    margin-bottom: 40px;
+}
+
+.registration {
+    height: 200px;
+    margin-bottom: 40px;
+
+    fa {
+        font-size: 60px;
+        margin-left: 25px;
+    }
+}
+
+.title {
+    margin-bottom: 40px !important;
 }
