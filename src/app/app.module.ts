@@ -14,7 +14,9 @@ import {
   MatButtonModule,
   MatCardModule,
   MatFormFieldModule,
-  MatExpansionModule 
+  MatExpansionModule,
+  MatRadioModule,
+  MatCheckboxModule,
  } from "@angular/material";
  import { AngularFontAwesomeModule } from 'angular-font-awesome';
  
@@ -55,6 +57,8 @@ import { MyFilterPipe } from './home/home.filter.component';
     MatCardModule,
     MatFormFieldModule,
     MatExpansionModule,
+    MatRadioModule,
+    MatCheckboxModule,
     MatDialogModule,
     AngularFontAwesomeModule,
     AlertModule.forRoot(),

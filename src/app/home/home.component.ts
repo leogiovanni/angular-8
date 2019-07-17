@@ -1,13 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../data.service';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { validateHorizontalPosition, CloseScrollStrategy } from '@angular/cdk/overlay';
+import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
-import { switchMap, first } from "rxjs/operators";
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { $ } from 'protractor';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-home',
@@ -19,12 +18,21 @@ export class HomeComponent implements OnInit {
 
   users: Array<User> = [];
   success: boolean = false;
-  warning: boolean = false;
   error: boolean = false;
   isLoadingResults: boolean = false;
   message: string = null;
   form: FormGroup;
+  formNew: FormGroup;
   search: string = null;
+
+  // new User
+  id: number = null;
+  username: string = null;
+  name: string = null;
+  email: string = null;
+  city: string = null;
+  frequency: string = null;
+  day: Array<String> = null;
 
   constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog) {  }
 
@@ -36,7 +44,16 @@ export class HomeComponent implements OnInit {
     this.isLoadingResults = true;
 
     this.form = this.formBuilder.group({
-      'search' : [null, [ Validators.minLength(3)] ]
+      'search' : [null, [ Validators.minLength(2)] ]
+    });
+
+    this.formNew = this.formBuilder.group({
+      'username' : [null, [ Validators.required, Validators.minLength(3)] ],
+      'name' : [null, [ Validators.required, Validators.minLength(2)] ],
+      'email' : [null, [ Validators.required, Validators.email] ],
+      'frequency' : [null, [ Validators.required ] ],
+      'day' : [null, [ Validators.required ] ],
+      'city': [null]
     });
 
     this.data.get(environment.users).subscribe(
@@ -140,6 +157,29 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  addNewUser(formNew:NgForm) {
+    this.id = this.users.reduce((max, p) => p.id > max ? p.id : max, this.users[0].id) + 1;
+   
+    // console.log(formNew['day']);
+
+    this.users.push(new User(
+        this.id, 
+        formNew['username'], 
+        formNew['name'], 
+        formNew['email'],
+        formNew['city'],
+        formNew['frequency'],
+        "",
+        0,
+        0,
+        0
+      )
+    );
+
+    let message = "User added successfully";
+    this.successMethod(message);
+  }
+
   showRemoveBtn(show: boolean, id: string){
     if(show){
       document.getElementById(id).style.display = "block";
@@ -149,35 +189,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  reset(){
-    this.users = [];
-    this.success = false;
-    this.warning = false;
-    this.error = false;
-    this.isLoadingResults = false;
-  }
-
-  successMethod(){
+  successMethod(message){
     this.success = true;
-    this.warning = false;
     this.error = false;
-    this.isLoadingResults = false;
+    this.message = message;
+
+    setTimeout(() => {
+      this.success = false;      
+    }, 4000);
   }
 
   errorMethod(message: string){
     this.message = message;
     this.isLoadingResults = false;
     this.success = false;
-    this.warning = false;
     this.error = true;
-  }
 
-  warningMethod(message: string){
-    this.message = message;
-    this.isLoadingResults = false;
-    this.success = false;
-    this.warning = true;
-    this.error = false;
+    setTimeout(() => {
+      this.error = false;      
+    }, 4000);
   }
 }
 

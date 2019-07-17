@@ -11,7 +11,7 @@ table {
     margin: 0 auto;
 
     tr{
-        border-bottom: 1px solid #8f8f8f;
+        border-bottom: 1px solid #ecebeb;
 
         &:hover{
             background: #ecebeb;
@@ -80,7 +80,7 @@ table {
 }
 
 .registration {
-    height: 200px;
+    height: auto;
     margin-bottom: 40px;
 
     fa {
@@ -91,4 +91,44 @@ table {
 
 .title {
     margin-bottom: 40px !important;
+}
+
+.form {
+    height: auto;
+    margin-bottom: 80px;
+}
+
+.content-form {
+    border-top: 1px solid #ecebeb;
+    padding-top: 20px;
+}
+
+.radiobutton {
+    margin-top: 20px;
+    margin-right: 50px;
+}
+
+.section-checkbox {
+    margin-top: 60px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.btn-submit {
+    margin-right: 20px;
+}
+
+.btn-success{
+    background: #C0ECE4 !important;
+    border-color: #C0ECE4 !important;
+
+    &:hover{
+        background: #3CC4AC !important;
+    }
+
+    &:disabled:hover{
+        background: #C0ECE4 !important;  
+    }
 }

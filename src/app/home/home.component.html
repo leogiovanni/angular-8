@@ -1,13 +1,8 @@
 <div class="content">
+
   <div class="row box-message" *ngIf="error">
     <div class="col-12">
-        <alert type="danger row">{{message}}</alert>
-    </div>
-  </div>
-
-  <div class="row box-message" *ngIf="warning">
-    <div class="col-12">
-        <alert type="warning row">{{message}}</alert>
+      <alert type="danger row">{{message}}</alert>
     </div>
   </div>
 
@@ -19,10 +14,10 @@
       <div class="col-7"></div>
       <div class="col-3" >
           <form [formGroup]="form">
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" appearance="outline"> 
               <input matInput placeholder="Filter by name or username" formControlName="search" [value]="search" autocomplete="off" (change)="onInputChange(form.value)">
               <mat-error>
-                <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 3 characters</span>
+                <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 2 characters</span>
               </mat-error>
             </mat-form-field>
           </form>
@@ -69,45 +64,111 @@
     </div>
 
     <div class="row registration">
-        <div class="col-12">
-          <h1 class="title">Registration</h1> 
-        </div>
-        <div class="col-12">
-          <div class="col-4 position-left row">
-            <h3 class="color-font-default">Need help ?</h3>
-            <div class="row">
-                <div class="col-3 position-left">
-                    <fa name="life-ring" class="color-font-default"></fa>
-                </div>
-                <div class="col-9 position-left">
-                  <p>Readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
-                </div>
-              </div>
-          </div>
-          <div class="col-4 position-left">
-            <h3 class="color-font-default">Why register ?</h3>
-            <div class="row">
+      <div class="col-12">
+        <h1 class="title">Registration</h1> 
+      </div>
+      <div class="col-12">
+        <div class="col-4 position-left row">
+          <h3 class="color-font-default">Need help ?</h3>
+          <div class="row">
               <div class="col-3 position-left">
-                <fa name="heartbeat" class="color-font-default"></fa>
+                  <fa name="life-ring" class="color-font-default"></fa>
               </div>
               <div class="col-9 position-left">
-                <p>When looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+                <p>Readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
               </div>
             </div>
-          </div>
-          <div class="col-4 position-left">
-            <h3 class="color-font-default">What people are saying ...</h3>
-            <div class="row">
-                <div class="col-3 position-left">
-                  <fa name="users" class="color-font-default"></fa>
-                </div>
-                <div class="col-9 position-left">
-                  <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
-                </div>
-              </div>
+        </div>
+        <div class="col-4 position-left">
+          <h3 class="color-font-default">Why register ?</h3>
+          <div class="row">
+            <div class="col-3 position-left">
+              <fa name="heartbeat" class="color-font-default"></fa>
+            </div>
+            <div class="col-9 position-left">
+              <p>When looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+            </div>
           </div>
         </div>
+        <div class="col-4 position-left">
+          <h3 class="color-font-default">What people are saying ...</h3>
+          <div class="row">
+              <div class="col-3 position-left">
+                <fa name="users" class="color-font-default"></fa>
+              </div>
+              <div class="col-9 position-left">
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
+              </div>
+            </div>
+        </div>
       </div>
-  </div>
+    </div>
 
+    <div class="row form">
+      <div class="col-8 offset-2 content-form">
+        
+        <div class="row box-message" *ngIf="success">
+          <div class="col-12">
+            <alert type="success row">{{message}}</alert>
+          </div>
+        </div>
+
+        <form [formGroup]="formNew" (ngSubmit)="addNewUser(formNew.value)">
+          <div class="row">
+            <div class="col-6 position-left">
+              <mat-form-field class="full-width" appearance="outline">
+                <input matInput placeholder="Username" formControlName="username" [value]="username" autocomplete="off">
+                <mat-error>
+                  <span *ngIf="formNew.controls['username'].hasError('required') && formNew.get('username').touched">Username is required</span>
+                  <span *ngIf="formNew.controls['username'].hasError('minlength') && formNew.get('username').touched">Please enter at least 3 characters</span>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="full-width" appearance="outline">
+                <input matInput placeholder="Name" formControlName="name" [value]="name" autocomplete="off">
+                <mat-error>
+                  <span *ngIf="formNew.controls['name'].hasError('required') && formNew.get('name').touched">Name is required</span>
+                  <span *ngIf="formNew.controls['name'].hasError('minlength') && formNew.get('name').touched">Please enter at least 2 characters</span>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="full-width" appearance="outline">
+                <input matInput placeholder="E-mail" formControlName="email" [value]="email" autocomplete="off">
+                <mat-error>
+                  <span *ngIf="formNew.controls['email'].hasError('required') && formNew.get('email').touched">Please enter at least 2 characters</span>
+                  <span *ngIf="formNew.controls['email'].hasError('email') && formNew.get('email').touched">Please enter a valid email</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6 position-left">
+              <mat-form-field class="full-width" appearance="outline">
+                <input matInput placeholder="City" formControlName="city" [value]="city" autocomplete="off">
+              </mat-form-field>
+              <mat-radio-group formControlName="frequency" [value]="frequency" class="full-width">
+                <mat-radio-button class="radiobutton" value="Always">Always</mat-radio-button>
+                <mat-radio-button class="radiobutton" value="Sometimes">Sometimes</mat-radio-button>
+                <mat-radio-button class="radiobutton" value="Never">Never</mat-radio-button>
+                <mat-error>
+                  <span *ngIf="formNew.controls['frequency'].hasError('required') && formNew.get('frequency').touched">Please select one option</span>
+                </mat-error>
+              </mat-radio-group>
+              <section class="section-checkbox">
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Sun">Sun</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Mon">Mon</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Tue">Tue</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Wed">Wed</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Thu">Thu</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Fri">Fri</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="day" [value]="day" value="Sat">Sat</mat-checkbox>
+                <mat-error>
+                  <span *ngIf="formNew.controls['day'].hasError('required') && formNew.get('day').touched">Please select one option</span>
+                </mat-error>
+              </section>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success btn-submit" [disabled]="!formNew.valid">Save</button>
+          <button type="button" class="btn btn-light btn-submit" id="btn-reset" (click)="formNew.reset()">Discard</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
 </div>

@@ -9,7 +9,7 @@ import { HomeComponent, User } from './home.component';
 export class MyFilterPipe implements PipeTransform {  
 
     transform(items: any[], filter: User): any {  
-        if (!items || !filter || filter.toString().length < 3) {  
+        if (!items || !filter || filter.toString().length < 2) {  
             return items;  
         }  
         let users = items.filter((item) => {
