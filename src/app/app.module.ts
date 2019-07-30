@@ -31,6 +31,8 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent, HomeConfirmComponent} from './home/home.component';
 import { MyFilterPipe } from './home/home.filter.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { MyFilterPipe } from './home/home.filter.component';
     HomeComponent,
     HomeConfirmComponent,
     MyFilterPipe,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,27 @@
+<div class="container">  
+    <div class="row">
+        <div class="col-md-4 col-sm-12 offset-4 example-card">  
+            <form [formGroup]="formLogin" (ngSubmit)="login(formLogin.value)" class="example-form">    
+                <mat-card-content>                                     
+                    <mat-form-field class="full-width" appearance="outline">
+                        <input matInput placeholder="Username" formControlName="username" [value]="username" autocomplete="off">
+                        <mat-error>
+                            <span *ngIf="formLogin.controls['username'].hasError('email')">Please enter a valid email</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <input matInput placeholder="Password" formControlName="password" type="password" name="password" autocomplete="off">
+                        <mat-error>
+                            <span *ngIf="formLogin.controls['password'].hasError('minlength')">Please enter at least 8 characters</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+                </mat-card-content>
+                <mat-card-actions *ngIf="!isLoading">
+                    <button type="submit" [disabled]="!formLogin.valid" class="btn btn-success" color="primary">Login</button>
+                </mat-card-actions>        
+                <mat-spinner *ngIf="isLoading" diameter="30" strokeWidth="2" class="loading-btn"></mat-spinner>  
+            </form>  
+        </div>
+    </div>
+</div>

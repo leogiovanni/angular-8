@@ -19,9 +19,8 @@ a {
 header .container-fluid {
     width: 100% !important;
     margin: 0 auto;
-    padding: 1.2em 0 1.2em 1em;
+    padding: 1.2em 1em 1.2em 1em;
     display: grid;
-    grid-template-columns: 250px auto;
 }
 
 .container-fluid {
@@ -53,4 +52,33 @@ section {
 
 .position-left {
     float: left;
+}
+
+.full-width {
+    width: 100%;
+
+    &:nth-last-child {
+        margin-bottom: 10px;
+    }
+}
+
+.btn-success{
+    background: #C0ECE4 !important;
+    border-color: #C0ECE4 !important;
+
+    &:hover{
+        background: #3CC4AC !important;
+    }
+
+    &:disabled:hover{
+        background: #C0ECE4 !important;  
+    }
+}
+
+/* Change the white to any color ;) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
