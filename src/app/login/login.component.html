@@ -15,7 +15,6 @@
                             <span *ngIf="formLogin.controls['password'].hasError('minlength')">Please enter at least 8 characters</span>
                         </mat-error>
                     </mat-form-field>
-                    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
                 </mat-card-content>
                 <mat-card-actions *ngIf="!isLoading">
                     <button type="submit" [disabled]="!formLogin.valid" class="btn btn-success" color="primary">Login</button>
