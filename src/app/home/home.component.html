@@ -15,7 +15,7 @@
       <div class="col-3" >
           <form [formGroup]="form">
             <mat-form-field class="full-width" appearance="outline"> 
-              <input matInput placeholder="Filter by name or username" formControlName="search" [value]="search" autocomplete="off" (keyup)="onInputChange(form.value)">
+              <input matInput placeholder="Filter by name or username" formControlName="search" autocomplete="off" (keyup)="onInputChange(form.value)">
               <mat-error>
                 <span *ngIf="form.controls['search'].hasError('minlength')">Please enter at least 2 characters</span>
               </mat-error>
@@ -126,21 +126,21 @@
           <div class="row">
             <div class="col-md-6 col-sm-12 position-left">
               <mat-form-field class="full-width" appearance="outline">
-                <input matInput placeholder="Username" formControlName="username" [value]="username" autocomplete="off">
+                <input matInput placeholder="Username" formControlName="username" autocomplete="off">
                 <mat-error>
                   <span *ngIf="formNew.controls['username'].hasError('required') && formNew.get('username').touched">Username is required</span>
                   <span *ngIf="formNew.controls['username'].hasError('minlength') && formNew.get('username').touched">Please enter at least 3 characters</span>
                 </mat-error>
               </mat-form-field>
               <mat-form-field class="full-width" appearance="outline">
-                <input matInput placeholder="Name" formControlName="name" [value]="name" autocomplete="off">
+                <input matInput placeholder="Name" formControlName="name" autocomplete="off">
                 <mat-error>
                   <span *ngIf="formNew.controls['name'].hasError('required') && formNew.get('name').touched">Name is required</span>
                   <span *ngIf="formNew.controls['name'].hasError('minlength') && formNew.get('name').touched">Please enter at least 2 characters</span>
                 </mat-error>
               </mat-form-field>
               <mat-form-field class="full-width" appearance="outline">
-                <input matInput placeholder="E-mail" formControlName="email" [value]="email" autocomplete="off">
+                <input matInput placeholder="E-mail" formControlName="email" autocomplete="off">
                 <mat-error>
                   <span *ngIf="formNew.controls['email'].hasError('required') && formNew.get('email').touched">Please enter at least 2 characters</span>
                   <span *ngIf="formNew.controls['email'].hasError('email') && formNew.get('email').touched">Please enter a valid email</span>
@@ -149,9 +149,9 @@
             </div>
             <div class="col-md-6 col-sm-12 position-left">
               <mat-form-field class="full-width" appearance="outline">
-                <input matInput placeholder="City" formControlName="city" [value]="city" autocomplete="off">
+                <input matInput placeholder="City" formControlName="city" autocomplete="off">
               </mat-form-field>
-              <mat-radio-group formControlName="frequency" [value]="frequency" class="full-width">
+              <mat-radio-group formControlName="frequency"class="full-width">
                 <mat-radio-button class="radiobutton" value="Always">Always</mat-radio-button>
                 <mat-radio-button class="radiobutton" value="Sometimes">Sometimes</mat-radio-button>
                 <mat-radio-button class="radiobutton" value="Never">Never</mat-radio-button>
@@ -160,13 +160,13 @@
                 </mat-error>
               </mat-radio-group>
               <section class="section-checkbox" formGroupName="day"> 
-                <mat-checkbox class="checkbox" formControlName="daySun" [value]="daySun" value="Sun">Sun</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="dayMon" [value]="dayMon" value="Mon">Mon</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="dayTue" [value]="dayTue" value="Tue">Tue</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="dayWed" [value]="dayWed" value="Wed">Wed</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="dayThu" [value]="dayThu" value="Thu">Thu</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="dayFri" [value]="dayFri" value="Fri">Fri</mat-checkbox>
-                <mat-checkbox class="checkbox" formControlName="daySat" [value]="daySat" value="Sat">Sat</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="daySun">Sun</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayMon">Mon</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayTue">Tue</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayWed">Wed</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayThu">Thu</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="dayFri">Fri</mat-checkbox>
+                <mat-checkbox class="checkbox" formControlName="daySat">Sat</mat-checkbox>
                 <mat-error>
                   <span *ngIf="formNew.controls['day'].hasError('required') && formNew.get('day').touched">Please select one option</span>
                 </mat-error>
