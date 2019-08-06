@@ -4,13 +4,13 @@
             <form [formGroup]="formLogin" (ngSubmit)="login(formLogin.value)" class="example-form">    
                 <mat-card-content>                                     
                     <mat-form-field class="full-width" appearance="outline">
-                        <input matInput placeholder="Username" formControlName="username" [value]="username" autocomplete="off">
+                        <input matInput placeholder="Username" formControlName="username" autocomplete="off">
                         <mat-error>
                             <span *ngIf="formLogin.controls['username'].hasError('email')">Please enter a valid email</span>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="full-width" appearance="outline">
-                        <input matInput placeholder="Password" formControlName="password" type="password" name="password" autocomplete="off">
+                        <input matInput placeholder="Password" formControlName="password" autocomplete="off" type="password">
                         <mat-error>
                             <span *ngIf="formLogin.controls['password'].hasError('minlength')">Please enter at least 8 characters</span>
                         </mat-error>
