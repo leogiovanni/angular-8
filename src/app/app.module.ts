@@ -33,6 +33,7 @@ import { HomeComponent, HomeConfirmComponent} from './home/home.component';
 import { MyFilterPipe } from './home/home.filter.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { LogoutComponent } from './logout/logout.component';
     MyFilterPipe,
     LoginComponent,
     LogoutComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
