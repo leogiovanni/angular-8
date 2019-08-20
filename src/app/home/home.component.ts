@@ -74,8 +74,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.data.getUser(environment.users).subscribe(
-      res=>{
-      res=>{        
+      res=>{      
         for(let us of res){
           this.users.push(new User(
               us.id, 
