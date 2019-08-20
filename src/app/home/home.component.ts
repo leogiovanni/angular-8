@@ -1,5 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DataService } from '../service/data.service';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
 import { Router } from '@angular/router';
@@ -7,6 +6,8 @@ import { environment } from '../../environments/environment';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DataService } from '../service/data.service';
+import { User } from '../service/user';
 
 @Component({
   selector: 'app-home',
@@ -72,16 +73,16 @@ export class HomeComponent implements OnInit {
       'city': [null],            
     });
 
-    this.data.get(environment.users).subscribe(
+    this.data.getUser(environment.users).subscribe(
       res=>{
-
-        for(let user of res){
+        
+        for(let us of res){
           this.users.push(new User(
-              user.id, 
-              user.username, 
-              user.name, 
-              user.email,
-              user.address.city,
+              us.id, 
+              us.username, 
+              us.name, 
+              us.email,
+              us.address.city,
               this.rideInGroup(),
               this.dayOfweek(),
               0,
@@ -110,7 +111,7 @@ export class HomeComponent implements OnInit {
   }
 
   searchPosts(){
-    this.data.get(environment.posts).subscribe(
+    this.data.getPost(environment.posts).subscribe(
       res=>{
         for(let post of res){
           let index = this.users.findIndex(User => User.id === post.userId);
@@ -121,12 +122,12 @@ export class HomeComponent implements OnInit {
   }
 
   searchAlbuns(){
-    this.data.get(environment.albums).subscribe(
+    this.data.getAlbum(environment.albums).subscribe(
       res=>{
 
         let albums = res;
         
-        this.data.get(environment.photos).subscribe(
+        this.data.getPhoto(environment.photos).subscribe(
           res=>{
             for(let album of albums){
               
@@ -251,31 +252,6 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.error = false;      
     }, 4000);
-  }
-}
-
-export class User {
-  public id: number;
-  public username: string;
-  public name: string;
-  private email: string;
-  private city: string;
-  private rideInGroup: string;
-  private dayOfWeek: string;
-  public posts: number;
-  public albums: number;
-  public photos: number;
-  constructor(id:number,username:string,name:string,email: string,city:string,rideInGroup:string,dayOfWeek:string,posts:number,albums:number,photos:number) { 
-    this.id = id; 
-    this.username = username;
-    this.name = name;
-    this.email = email;
-    this.city = city;
-    this.rideInGroup = rideInGroup;
-    this.dayOfWeek = dayOfWeek;
-    this.posts = posts;
-    this.albums = albums;
-    this.photos = photos; 
   }
 }
 
