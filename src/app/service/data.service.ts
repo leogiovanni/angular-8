@@ -12,7 +12,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getUser(url: string){
+  getUser(url: string): Observable<any>{
     return this.http.get<any>(url)
       .catch(this.errorHandler);    
   }
