@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div class="row banner">
+<div class="row banner" *ngIf="authService.isUserLoggedIn()">
   <div class="col-12 content">
     <div class="position-left">
       <p>Sport Type</p>
