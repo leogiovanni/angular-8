@@ -20,6 +20,7 @@ export class TokenInterceptorService implements HttpInterceptor{
           'Content-type': 'application/x-www-form-urlencoded;',
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+          'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
           'Authorization': 'Basic ' + btoa(environment.client_id+ ':' + environment.client_secret)
         }
       });
@@ -31,6 +32,7 @@ export class TokenInterceptorService implements HttpInterceptor{
           'Content-type': 'application/x-www-form-urlencoded;',
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+          'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
           'Authorization': 'Bearer '+ authService.getToken().access_token
         }
       }); 
