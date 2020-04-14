@@ -22,6 +22,8 @@ export class AuthenticationService {
   getHeader(){
     return new HttpHeaders()
     .set('Content-type', 'application/x-www-form-urlencoded;')
+    .set('Access-Control-Allow-Origin', '*')
+    .set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
     .set('Authorization', 'Bearer ' + sessionStorage.getItem("access_token"));
   }
  
