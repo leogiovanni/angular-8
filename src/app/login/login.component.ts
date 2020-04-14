@@ -34,7 +34,15 @@ export class LoginComponent implements OnInit {
         this.authService.saveToken(res);
         this.invalidLogin = false;
         this.isLoading = false;
-        this.router.navigate(['']);
+        this.authService.getLoggedUser().subscribe(
+          res => {
+            this.router.navigate(['']);
+            sessionStorage.setItem("logged_user", res.name);
+          },
+          err => {
+            console.log(err);
+          }
+        );
       },
       err => {
         this.invalidLogin = true;

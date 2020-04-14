@@ -30,6 +30,8 @@ export class AuthenticationService {
   getResource(username, password) : Observable<any> {
     let headers = new HttpHeaders()
       .set('Content-type', 'application/x-www-form-urlencoded;')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
       .set('Authorization', 'Basic ' + btoa(environment.client_id+ ':' + environment.client_secret));
 
     let body = new HttpParams()
@@ -63,6 +65,10 @@ export class AuthenticationService {
     let headers = this.getHeader();
     return this.http.get<any>(environment.doxorder+"user/me", { headers: headers })
       .catch(this.errorHandler);    
+  }
+
+  loggedUser(){
+    return sessionStorage.getItem('logged_user')
   }
 
   errorHandler(error: HttpErrorResponse){

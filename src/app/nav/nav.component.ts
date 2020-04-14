@@ -10,16 +10,5 @@ export class NavComponent implements OnInit {
 
   constructor(public authService:AuthenticationService) { }
 
-  loggedUser: String = null;
-
-  ngOnInit() {
-    if (this.authService.isUserLoggedIn()){
-      this.authService.getLoggedUser().subscribe(
-        res => {
-          this.loggedUser = res.name;
-        },
-        err => {}
-      );
-    }
-  }
+  ngOnInit() {}
 }
