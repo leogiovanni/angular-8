@@ -7,8 +7,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGaurdService } from './service/auth-gaurd.service';
 
 const routes: Routes = [
-  //{ path: '',       component: HomeComponent, canActivate:[AuthGaurdService] },
-  { path: '',       component: HomeComponent },
+  { path: '',       component: HomeComponent, canActivate:[AuthGaurdService]},
   { path: 'login',  component: LoginComponent },
   { path: 'logout', component: LogoutComponent, canActivate:[AuthGaurdService] },
   { path: "**",     component: PageNotFoundComponent}, //wildcard 

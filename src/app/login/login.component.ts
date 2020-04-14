@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   login(formLogin:NgForm) {
     this.isLoading = true;
 
-    this.authService.getResource(formLogin["username"], formLogin["password"]).subscribe(
+    this.authService.logIn(formLogin["username"], formLogin["password"]).subscribe(
       res => {
         this.authService.saveToken(res);
         this.invalidLogin = false;
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
       err => {
         this.invalidLogin = true;
         this.isLoading = false;
+        alert("Login failed");
       }
     );     
   }
