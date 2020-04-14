@@ -13,11 +13,13 @@ export class NavComponent implements OnInit {
   loggedUser: String = null;
 
   ngOnInit() {
-    this.authService.getLoggedUser().subscribe(
-      res => {
-        this.loggedUser = res.name;
-      },
-      err => {}
-    );
+    if (this.authService.isUserLoggedIn()){
+      this.authService.getLoggedUser().subscribe(
+        res => {
+          this.loggedUser = res.name;
+        },
+        err => {}
+      );
+    }
   }
 }
