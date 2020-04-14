@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: Boolean = false;
   formLogin: FormGroup;
   isLoading: Boolean = false;
+  isLoggedIn: Boolean = false;
 
   constructor(private router: Router, private authService: AuthenticationService, private formBuilder: FormBuilder) { }
 
@@ -28,16 +29,17 @@ export class LoginComponent implements OnInit {
   login(formLogin:NgForm) {
     this.isLoading = true;
 
-    setTimeout(() => {
-      if (this.authService.authenticate(formLogin["username"], formLogin["password"])) {
-        this.router.navigate([''])
+    this.authService.getResource(formLogin["username"], formLogin["password"]).subscribe(
+      res => {
+        this.authService.saveToken(res);
         this.invalidLogin = false;
         this.isLoading = false;
-      } 
-      else{
+        this.router.navigate(['']);
+      },
+      err => {
         this.invalidLogin = true;
-      }     
-    }, 1500);       
+        this.isLoading = false;
+      }
+    );     
   }
-
 }
