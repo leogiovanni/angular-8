@@ -14,8 +14,10 @@ export class TokenInterceptorService implements HttpInterceptor{
   constructor(private injector: Injector) { }
 
   intercept(req, next) {
+
+    var tokenizedReq = null;
     if (req.headers.has(InterceptorSkipHeader)) {
-      var tokenizedReq = req.clone({
+      tokenizedReq = req.clone({
         setHeaders: {
           'Content-type': 'application/x-www-form-urlencoded;',
           'Access-Control-Allow-Origin': '*',
@@ -27,7 +29,7 @@ export class TokenInterceptorService implements HttpInterceptor{
     }
     else { 
       let authService = this.injector.get(AuthenticationService);
-      var tokenizedReq = req.clone({
+      tokenizedReq = req.clone({
         setHeaders: {
           'Content-type': 'application/x-www-form-urlencoded;',
           'Access-Control-Allow-Origin': '*',
