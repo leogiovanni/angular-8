@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Router } from '@angular/router';
-import { InterceptorSkipHeader } from '../token-interceptor.service';
+import { InterceptorSkipHeader } from './token-interceptor.service';
 
 @Injectable({
   providedIn: 'root'

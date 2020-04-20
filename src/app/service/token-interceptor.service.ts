@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpInterceptor, HttpErrorResponse,  } from '@angular/common/http';
-import { AuthenticationService } from './service/authentication.service';
+import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 export const InterceptorSkipHeader = 'X-Skip-Interceptor';
 
