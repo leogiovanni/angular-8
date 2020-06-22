@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpInterceptor, HttpErrorResponse,  } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse,  } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
-import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
+import { ErrorInterceptorService } from './error/error-interceptor.service';
 
 export const InterceptorSkipHeader = 'X-Skip-Interceptor';
 
@@ -11,9 +11,9 @@ export const InterceptorSkipHeader = 'X-Skip-Interceptor';
 })
 export class TokenInterceptorService implements HttpInterceptor{
 
-  constructor(private injector: Injector) { }
+  constructor(private injector: Injector, private errorInterceptor: ErrorInterceptorService) { }
 
-  intercept(req, next) {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
 
     var tokenizedReq = null;
     if (req.headers.has(InterceptorSkipHeader)) {
@@ -39,10 +39,6 @@ export class TokenInterceptorService implements HttpInterceptor{
         }
       }); 
     }
-    return next.handle(tokenizedReq).catch(this.errorHandler);
-  }
-
-  errorHandler(error: HttpErrorResponse){
-    return Observable.throw(error.message || 'Server Error');
+    return next.handle(tokenizedReq).catch((err) => this.errorInterceptor.httpErrorHandler("error", err));
   }
 }

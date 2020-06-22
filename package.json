@@ -31,6 +31,7 @@
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5",
     "ngx-bootstrap": "^5.1.0",
+    "rollbar": "^2.17.0",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.2",
     "serialize-javascript": "^3.0.0",

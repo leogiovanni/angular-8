@@ -7,7 +7,8 @@ import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DataService } from '../service/data.service';
-import { User } from '../service/user';
+import { User } from '../model/user';
+import { ErrorInterceptorService } from '../service/error/error-interceptor.service';
 
 @Component({
   selector: 'app-home',
@@ -43,13 +44,17 @@ export class HomeComponent implements OnInit {
   dayFri: boolean = null;
   daySat: boolean = null;
 
-  constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog) {  }
+  constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog, private errorInterceptor: ErrorInterceptorService) {  }
 
   ngOnInit() {    
     this.onLoadPage();   
   }
 
   onLoadPage(){
+    
+    console.log("Teste rollbar");
+    this.errorInterceptor.errorHandler("debug", "Teste rollbar");
+
     this.isLoadingResults = true;
 
     this.form = this.formBuilder.group({

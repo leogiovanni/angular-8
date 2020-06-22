@@ -1,6 +1,6 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { HomeComponent} from './home.component';
-import { User } from '../service/user';
+import { User } from '../model/user';
 
 @Pipe({  
     name: 'myfilter',  

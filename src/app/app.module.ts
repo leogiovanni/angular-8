@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
@@ -35,6 +35,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TokenInterceptorService } from './service/token-interceptor.service';
+import { RollbarErrorHandler, RollbarService, rollbarFactory } from './service/log/rollbar.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import { TokenInterceptorService } from './service/token-interceptor.service';
     MatDialogModule,
     AngularFontAwesomeModule,
     AlertModule.forRoot(),
-    ButtonsModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   entryComponents: [
     HomeConfirmComponent
@@ -79,7 +80,15 @@ import { TokenInterceptorService } from './service/token-interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
-    }
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: RollbarErrorHandler
+    },
+    {
+      provide: RollbarService,
+      useFactory: rollbarFactory
+    },
   ],
   bootstrap: [AppComponent]
 })
