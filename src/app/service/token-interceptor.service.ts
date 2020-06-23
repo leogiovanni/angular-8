@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse,  } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { environment } from '../../environments/environment';
 import { ErrorInterceptorService } from './error/error-interceptor.service';
