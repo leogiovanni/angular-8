@@ -44,19 +44,19 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. Run: ng install 
 2. Run: ng serve
 
-# How to build qa
+## How to build qa
 - ng build --configuration qa
 - ou npm run build-qa
 
-# How to build prod 
+## How to build prod 
 ng build --prod 
 
-# How to build and create docker container
+## How to build and create docker container
 - npm run docker
 - npm run docker-qa
 - npm run docker-prod
 
-## Online APP deployed in HEROKU
+# Online APP deployed in HEROKU
 
 https://leoangular.herokuapp.com/
 
