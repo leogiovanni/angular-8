@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: false,
     users: 'https://jsonplaceholder.typicode.com/users',
     posts: 'https://jsonplaceholder.typicode.com/posts/',
     albums: 'https://jsonplaceholder.typicode.com/albums/',
@@ -11,3 +11,4 @@ export const environment = {
     capture_uncaught: true,
     capture_unhandled_rejections: true,
 };
+  

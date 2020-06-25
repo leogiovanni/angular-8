@@ -41,12 +41,27 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## How to run
-
 To run is necessary nodejs.
 
 1. Run: ng install 
 2. Run: ng serve
 
+# How to build qa
+ng build --configuration qa
+
+# or 
+npm run build-qa
+
+# How to build prod 
+ng build --prod 
+
+# How to build and create docker container
+npm run docker
+npm run docker-qa
+npm run docker-prod
+
 ## Online APP deployed in HEROKU
 
 https://leoangular.herokuapp.com/
+
+

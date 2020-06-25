@@ -5,10 +5,15 @@
     "npm": "ng",
     "start": "node server.js",
     "build": "ng build",
+    "build-qa": "ng build --configuration qa",
+    "build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "ng build --prod"
+    "heroku-postbuild": "ng build --prod",
+    "docker": "docker build -t angular .",
+    "docker-qa": "docker build --build-arg env=qa -t angular .",
+    "docker-prod": "docker build --build-arg env=prod -t angular ."
   },
   "private": true,
   "dependencies": {
