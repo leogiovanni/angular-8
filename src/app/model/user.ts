@@ -29,6 +29,16 @@ export class User implements People {
     completeName(): String {
         return `${this.name} is ${this.username}`;
     }
+
+    static getRideInGroup(): string {
+        let array =  ['Always', 'Sometimes', 'Never'];
+        return array[Math.floor(Math.random()*array.length)];
+    }
+    
+    static getDayOfweek(): string{
+        let array =  ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        return array[Math.floor(Math.random()*array.length)]
+    }
 }
 
 class MainUser extends User {

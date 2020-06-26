@@ -5,7 +5,9 @@
 ### STAGE 1: Build ###
 FROM node:12.7-alpine AS build
 ARG env
-RUN echo $env
+ARG build
+COPY build.sh .
+RUN ./build.sh
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install

@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DataService } from '../service/data.service';
 import { User } from '../model/user';
 import { ErrorInterceptorService } from '../service/error/error-interceptor.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-home',
@@ -77,36 +78,23 @@ export class HomeComponent implements OnInit {
       }),
       'city': [null],            
     });
-
+    
+    /**
+     * could remove the subscribe
+     * creating users as an observable - users: Observable<User[]>;
+     * and use pipe async in the view - users | async
+     */
     this.data.getUser(environment.users).subscribe(
-      res=>{      
-        for(let us of res){
-          this.users.push(new User(
-              us.id, 
-              us.username, 
-              us.name, 
-              us.email,
-              us.address.city,
-              this.rideInGroup(),
-              this.dayOfweek(),
-              0,
-              0,
-              0
-            )
-          );
-        };
-
+      res => {
+        this.users = res;
         this.isLoadingResults = false;
-
-        if(this.users.length > 0){
+        if(this.users.length > 0) {
           this.searchPosts();
           this.searchAlbuns();
         }
       },
-      err =>{
-        this.errorMethod(err);
-      }
-    );    
+      err => this.errorMethod(err)
+    );
   }
 
   onInputChange(form:NgForm) {
@@ -115,7 +103,7 @@ export class HomeComponent implements OnInit {
 
   searchPosts(){
     this.data.getPost(environment.posts).subscribe(
-      res=>{
+      res => {
         for(let post of res){
           let index = this.users.findIndex(User => User.id === post.userId);
           this.users[index].posts = this.users[index].posts + 1;
