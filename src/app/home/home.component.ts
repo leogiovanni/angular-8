@@ -11,6 +11,7 @@ import { ErrorInterceptorService } from '../service/error/error-interceptor.serv
 import { Observable } from 'rxjs/Observable';
 import { SubSink } from 'subsink';
 import { forkJoin } from 'rxjs';
+import { mergeMap, startWith } from 'rxjs/operators';
 
 const CACHE_KEY = "userCached";
 
@@ -106,34 +107,77 @@ export class HomeComponent implements OnInit, OnDestroy {
     //     err => this.errorMethod(err)
     // );
 
-    let users  = this.data.getUser();
-    let posts  = this.data.getPost();
-    let albums = this.data.getAlbum();
-    let photos = this.data.getPhoto();
+    /**
+     * if the last request throws an error, the users won`t be laoded
+     * and for this case, the user data is the main data so it have to work
+     */
+    // let users  = this.data.getUser();
+    // let posts  = this.data.getPost();
+    // let albums = this.data.getAlbum();
+    // let photos = this.data.getPhoto();
 
-    this.subs.sink = forkJoin([users, posts, albums, photos])
+    // this.subs.sink = forkJoin([users, posts, albums, photos])
+    //   .subscribe(
+    //     res => {
+
+    //       this.users = res[0];
+    //       this.isLoadingResults = false;
+
+    //       res[1].forEach(post => this.calculate(post, "posts"));
+
+    //       res[2].forEach(album => {
+    //         // fill albums quantity
+    //         this.calculate(album, "albums");
+
+    //         // fill photos based on albums
+    //         res[3].forEach(photo => {
+    //           if(album.id == photo.albumId){
+    //             this.calculate(album, "photos");
+    //           }
+    //         });
+    //       });
+    //     },
+    //     err => this.errorMethod(err)
+    // );    
+
+     /**
+     * get user first because it is the main data in the screen
+     * after that tries to get the other information and doesn't matther if it works or fails
+     */
+    this.subs.sink = this.data.getUser()
+      .pipe(
+        startWith(JSON.parse(sessionStorage[CACHE_KEY] || '[]')) // data stored used to load the firts time 
+      )
       .subscribe(
         res => {
-
-          this.users = res[0];
+          this.users = res;
           this.isLoadingResults = false;
+          sessionStorage[CACHE_KEY] = JSON.stringify(this.users);
+          
+          if(this.users.length > 0 && this.users[0] instanceof User) {
 
-          res[1].forEach(post => this.calculate(post, "posts"));
+            let posts  = this.data.getPost();
+            let albums = this.data.getAlbum();
+            let photos = this.data.getPhoto();
 
-          res[2].forEach(album => {
-            // fill albums quantity
-            this.calculate(album, "albums");
-
-            // fill photos based on albums
-            res[3].forEach(photo => {
-              if(album.id == photo.albumId){
-                this.calculate(album, "photos");
-              }
-            });
-          });
+            this.subs.sink = forkJoin([posts, albums, photos]).subscribe(res => {
+              // fill posts quantity
+              res[0].forEach(post => this.calculate(post, "posts"));
+              res[1].forEach(album => {
+                // fill albums quantity
+                this.calculate(album, "albums");
+                // fill photos based on albums
+                res[2].forEach(photo => {
+                  if(album.id == photo.albumId){
+                    this.calculate(album, "photos");
+                  }
+                });
+              });
+            });    
+          }
         },
         err => this.errorMethod(err)
-    );    
+    );
   }
 
   searchPosts(){
