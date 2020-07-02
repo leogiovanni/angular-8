@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import 'rxjs/add/operator/map';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getUser(url: string): Observable<User[]>{
-    return this.http.get<any>(url)
-      .map((res: any) => {
+  getUser(): Observable<User[]>{
+    return this.http.get<any>(environment.users)
+      .map((res) => {
         let result = res.map((item) => {
           return new User(
             item.id, 
@@ -32,15 +33,15 @@ export class DataService {
     });    
   }
   
-  getPost(url: string): Observable<any>{
-    return this.http.get<any>(url);   
+  getPost(){
+    return this.http.get<any>(environment.posts);   
   }
 
-  getAlbum(url: string): Observable<any>{
-    return this.http.get<any>(url);    
+  getAlbum(){
+    return this.http.get<any>(environment.albums);    
   }
 
-  getPhoto(url: string): Observable<any>{
-    return this.http.get<any>(url);    
+  getPhoto(){
+    return this.http.get<any>(environment.photos);    
   }
 }

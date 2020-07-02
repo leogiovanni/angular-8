@@ -14,7 +14,9 @@ Steps to create the project:
 
 5. npm install @angular/material @angular/cdk --save
 
-6.  npm install --save rollbar
+6. npm install --save rollbar
+
+7. npm install subsink --save
 
 ## Development server
 

@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +9,11 @@ import { DataService } from '../service/data.service';
 import { User } from '../model/user';
 import { ErrorInterceptorService } from '../service/error/error-interceptor.service';
 import { Observable } from 'rxjs/Observable';
+import { SubSink } from 'subsink';
+import { startWith } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+
+const CACHE_KEY = "userCached";
 
 @Component({
   selector: 'app-home',
@@ -17,17 +21,17 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./home.component.scss'],
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  users: Array<User> = [];
+  users: User[];
   success: boolean = false;
   successRemove: boolean = false;
   error: boolean = false;
   isLoadingResults: boolean = false;
-  message: string = null;
+  message: string;
   form: FormGroup;
   formNew: FormGroup;
-  search: string = null;
+  search: string;
 
   // new User
   id: number = null;
@@ -44,6 +48,8 @@ export class HomeComponent implements OnInit {
   dayThu: boolean = null;
   dayFri: boolean = null;
   daySat: boolean = null;
+
+  subs = new SubSink();
 
   constructor(private data: DataService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, public confirm: MatDialog, private errorInterceptor: ErrorInterceptorService) {  }
 
@@ -78,22 +84,27 @@ export class HomeComponent implements OnInit {
       }),
       'city': [null],            
     });
-    
+
     /**
      * could remove the subscribe
-     * creating users as an observable - users: Observable<User[]>;
+     * creating users as an observable - users: Observable<User[]>; -- observable that emits User type
      * and use pipe async in the view - users | async
      */
-    this.data.getUser(environment.users).subscribe(
-      res => {
-        this.users = res;
-        this.isLoadingResults = false;
-        if(this.users.length > 0) {
-          this.searchPosts();
-          this.searchAlbuns();
-        }
-      },
-      err => this.errorMethod(err)
+    this.subs.sink = this.data.getUser()
+      .pipe(
+        startWith(JSON.parse(sessionStorage[CACHE_KEY] || '[]')) // data stored used to load the firts time 
+      )
+      .subscribe(
+        res => {
+          this.users = res;
+          this.isLoadingResults = false;
+          sessionStorage[CACHE_KEY] = JSON.stringify(this.users);
+          if(this.users.length > 0 && this.users[0] instanceof User) {
+            this.searchPosts();
+            this.searchAlbums();
+          }
+        },
+        err => this.errorMethod(err)
     );
   }
 
@@ -102,54 +113,37 @@ export class HomeComponent implements OnInit {
   }
 
   searchPosts(){
-    this.data.getPost(environment.posts).subscribe(
-      res => {
-        for(let post of res){
-          let index = this.users.findIndex(User => User.id === post.userId);
-          this.users[index].posts = this.users[index].posts + 1;
-        }    
-      }
-    );     
+    this.data.getPost().subscribe(posts => {
+      for(let post of posts){
+        this.calculate(post, "posts");
+      }    
+    });     
   }
 
-  searchAlbuns(){
-    this.data.getAlbum(environment.albums).subscribe(
-      res=>{
+  searchAlbums(){
 
-        let albums = res;
-        
-        this.data.getPhoto(environment.photos).subscribe(
-          res=>{
-            for(let album of albums){
-              
-              // fill albums quantity
-              let indexAlbum = this.users.findIndex(User => User.id === album.userId);
-              this.users[indexAlbum].albums = this.users[indexAlbum].albums + 1;
-              
-              //fill photos based on albums
-              for(let photo of res){
-                let albumId = photo.albumId;
+    let albums = this.data.getAlbum();
+    let photos = this.data.getPhoto();
 
-                if(album.id == albumId){
-                  let indexPhoto = this.users.findIndex(User => User.id === album.userId);
-                  this.users[indexPhoto].photos = this.users[indexPhoto].photos + 1;
-                }
-              }
-            }
+    forkJoin([albums, photos]).subscribe(res => {
+      for(let album of res[0]){
+            
+        // fill albums quantity
+        this.calculate(album, "albums");
+
+        // fill photos based on albums
+        for(let photo of res[1]){
+          if(album.id == photo.albumId){
+            this.calculate(album, "photos");
           }
-        );
+        }
       }
-    );
-  }
-  
-  rideInGroup(){
-    let array =  ['Always', 'Sometimes', 'Never'];
-    return array[Math.floor(Math.random()*array.length)];
+    });        
   }
 
-  dayOfweek(){
-    let array =  ['Monday','Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    return array[Math.floor(Math.random()*array.length)]
+  calculate(item: any, type: string) {
+    let index = this.users.findIndex(User => User.id === item.userId);
+    this.users[index][type] = this.users[index][type] + 1;
   }
 
   deleteUser(id: number){
@@ -243,6 +237,10 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.error = false;      
     }, 4000);
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }
 
