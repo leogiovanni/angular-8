@@ -10,7 +10,6 @@ import { User } from '../model/user';
 import { ErrorInterceptorService } from '../service/error/error-interceptor.service';
 import { Observable } from 'rxjs/Observable';
 import { SubSink } from 'subsink';
-import { startWith } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 const CACHE_KEY = "userCached";
@@ -90,30 +89,55 @@ export class HomeComponent implements OnInit, OnDestroy {
      * creating users as an observable - users: Observable<User[]>; -- observable that emits User type
      * and use pipe async in the view - users | async
      */
-    this.subs.sink = this.data.getUser()
-      .pipe(
-        startWith(JSON.parse(sessionStorage[CACHE_KEY] || '[]')) // data stored used to load the firts time 
-      )
+    // this.subs.sink = this.data.getUser()
+    //   .pipe(
+    //     startWith(JSON.parse(sessionStorage[CACHE_KEY] || '[]')) // data stored used to load the firts time 
+    //   )
+    //   .subscribe(
+    //     res => {
+    //       this.users = res;
+    //       this.isLoadingResults = false;
+    //       sessionStorage[CACHE_KEY] = JSON.stringify(this.users);
+    //       if(this.users.length > 0 && this.users[0] instanceof User) {
+    //         this.searchPosts();
+    //         this.searchAlbums();
+    //       }
+    //     },
+    //     err => this.errorMethod(err)
+    // );
+
+    let users  = this.data.getUser();
+    let posts  = this.data.getPost();
+    let albums = this.data.getAlbum();
+    let photos = this.data.getPhoto();
+
+    this.subs.sink = forkJoin([users, posts, albums, photos])
       .subscribe(
         res => {
-          this.users = res;
+
+          this.users = res[0];
           this.isLoadingResults = false;
-          sessionStorage[CACHE_KEY] = JSON.stringify(this.users);
-          if(this.users.length > 0 && this.users[0] instanceof User) {
-            this.searchPosts();
-            this.searchAlbums();
-          }
+
+          res[1].forEach(post => this.calculate(post, "posts"));
+
+          res[2].forEach(album => {
+            // fill albums quantity
+            this.calculate(album, "albums");
+
+            // fill photos based on albums
+            res[3].forEach(photo => {
+              if(album.id == photo.albumId){
+                this.calculate(album, "photos");
+              }
+            });
+          });
         },
         err => this.errorMethod(err)
-    );
-  }
-
-  onInputChange(form:NgForm) {
-    this.search = form['search'];
+    );    
   }
 
   searchPosts(){
-    this.data.getPost().subscribe(posts => {
+    this.subs.sink = this.data.getPost().subscribe(posts => {
       for(let post of posts){
         this.calculate(post, "posts");
       }    
@@ -125,7 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     let albums = this.data.getAlbum();
     let photos = this.data.getPhoto();
 
-    forkJoin([albums, photos]).subscribe(res => {
+    this.subs.sink = forkJoin([albums, photos]).subscribe(res => {
       for(let album of res[0]){
             
         // fill albums quantity
@@ -207,6 +231,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     else {
       document.getElementById(id).style.display = "none";
     }
+  }
+
+  onInputChange(form:NgForm) {
+    this.search = form['search'];
   }
 
   successMethod(message){
