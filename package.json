@@ -34,7 +34,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "kind-of": "^6.0.3",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "ngx-bootstrap": "^5.1.0",
     "rollbar": "^2.17.0",
     "rxjs": "~6.4.0",
